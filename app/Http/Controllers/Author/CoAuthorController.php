@@ -32,11 +32,8 @@ class CoAuthorController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-
-        // Get books where the user is the main author
         $mainBooks = $user->books()->wherePivot('is_main', true)->pluck('books.id');
 
-        // Get pending requests for these books
         $requests = Book::whereIn('id', $mainBooks)
             ->with(['user' => function ($query) {
                 $query->wherePivot('status', 'pending');
@@ -62,7 +59,6 @@ class CoAuthorController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Verify user is main author of the book
         if (!$user->books()->where('book_id', $bookId)->wherePivot('is_main', true)->exists()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
@@ -78,7 +74,6 @@ class CoAuthorController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Verify user is main author of the book
         if (!$user->books()->where('book_id', $bookId)->wherePivot('is_main', true)->exists()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }

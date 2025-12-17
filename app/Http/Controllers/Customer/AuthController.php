@@ -11,18 +11,15 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $inputs = $request->validate([
-            //user
             'name'=>['required'],
             'username'=>['required','unique:users'],
             'password'=>['required'],
-            // customer
             'phone_number'=>['required'],
             'address'=>['required'],
             'email'=>['required','email']
         ]);
         $inputs['type'] = 'customer';
 
-        //TODO:: make db transaction
         $user = User::create($inputs);
         $user->customer()->create($inputs);
 

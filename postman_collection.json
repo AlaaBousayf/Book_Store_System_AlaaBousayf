@@ -518,6 +518,25 @@
 					"response": []
 				},
 				{
+					"name": "Remove from Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/customer/cart/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customer",
+								"cart",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Checkout",
 					"request": {
 						"method": "POST",
@@ -752,6 +771,24 @@
 								"1",
 								"4",
 								"approve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/author/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"author",
+								"orders"
 							]
 						}
 					},

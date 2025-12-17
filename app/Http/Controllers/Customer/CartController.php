@@ -29,13 +29,12 @@ class CartController extends Controller
     {
         $user = Auth::user();
 
-        // if user not have a cart
+        // if user does not have a cart
         $cart = Cart::where('user_id', $user->id)->firstOrCreate([
             'user_id' => $user->id,
             'payment_method_id' => PaymentMethod::first()->id,
             'address' => $user->customer->address
         ]);
-
 
         $cartItem = CartItem::where('cart_id', $cart->id)->where('book_id', $book_id)->first();
 
@@ -50,8 +49,6 @@ class CartController extends Controller
                 'qty' => 1
             ]);
         }
-
-
 
         return response()->json([
             'message' => 'item added'

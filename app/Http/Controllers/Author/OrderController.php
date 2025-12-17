@@ -15,14 +15,11 @@ class OrderController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Get IDs of books belonging to the author
         $authorBookIds = $user->books()->pluck('books.id');
 
-        // Find orders that contain these books
         $orders = Order::whereHas('items', function ($query) use ($authorBookIds) {
             $query->whereIn('book_id', $authorBookIds);
         })->with(['items' => function ($query) use ($authorBookIds) {
-            // Only load items that belong to this author
             $query->whereIn('book_id', $authorBookIds)->with('book');
         }, 'user'])->latest()->get();
 
