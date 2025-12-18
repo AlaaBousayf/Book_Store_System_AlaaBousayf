@@ -25,53 +25,75 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::create([
-            'name'=>'admin',
-            'username'=>'admin',
-            'type'=>'admin',
-            'password'=>Hash::make('password')
-        ]);
+        User::updateOrCreate(
+            ['username' => 'admin'],
+            [
+                'name' => 'admin',
+                'type' => 'admin',
+                'password' => Hash::make('password'),
+            ]
+        );
 
         // Create a specific author for testing
-        $authorUser = User::create([
-            'name' => 'Test Author',
-            'username' => 'author',
-            'type' => 'author',
-            'password' => Hash::make('password'),
-            'status' => 'approve'
-        ]);
-        Author::factory()->create(['user_id' => $authorUser->id]);
+        $authorUser = User::updateOrCreate(
+            ['username' => 'author'],
+            [
+                'name' => 'Test Author',
+                'type' => 'author',
+                'password' => Hash::make('password'),
+                'status' => 'approve',
+            ]
+        );
+        Author::firstOrCreate(
+            ['user_id' => $authorUser->id],
+            ['bio' => 'Seeded test author', 'country' => 'Lebanon']
+        );
 
         // Create a pending author for testing approval
-        $pendingAuthorUser = User::create([
-            'name' => 'Pending Author',
-            'username' => 'pending_author',
-            'type' => 'author',
-            'password' => Hash::make('password'),
-            'status' => 'pending'
-        ]);
-        Author::factory()->create(['user_id' => $pendingAuthorUser->id]);
+        $pendingAuthorUser = User::updateOrCreate(
+            ['username' => 'pending_author'],
+            [
+                'name' => 'Pending Author',
+                'type' => 'author',
+                'password' => Hash::make('password'),
+                'status' => 'pending',
+            ]
+        );
+        Author::firstOrCreate(
+            ['user_id' => $pendingAuthorUser->id],
+            ['bio' => 'Seeded pending author', 'country' => 'Lebanon']
+        );
 
         // Create a NEW author specifically for testing the "Join" feature
-        $applicantUser = User::create([
-            'name' => 'Applicant Author',
-            'username' => 'applicant',
-            'type' => 'author',
-            'password' => Hash::make('password'),
-            'status' => 'approve'
-        ]);
-        Author::factory()->create(['user_id' => $applicantUser->id]);
+        $applicantUser = User::updateOrCreate(
+            ['username' => 'applicant'],
+            [
+                'name' => 'Applicant Author',
+                'type' => 'author',
+                'password' => Hash::make('password'),
+                'status' => 'approve',
+            ]
+        );
+        Author::firstOrCreate(
+            ['user_id' => $applicantUser->id],
+            ['bio' => 'Seeded applicant author', 'country' => 'Lebanon']
+        );
 
         // Create a specific customer for testing
-        $customerUser = User::create([
-            'name' => 'Test Customer',
-            'username' => 'customer',
-            'type' => 'customer',
-            'password' => Hash::make('password')
-        ]);
-        Customer::factory()->create(['user_id' => $customerUser->id]);
+        $customerUser = User::updateOrCreate(
+            ['username' => 'customer'],
+            [
+                'name' => 'Test Customer',
+                'type' => 'customer',
+                'password' => Hash::make('password'),
+            ]
+        );
+        Customer::firstOrCreate(
+            ['user_id' => $customerUser->id],
+            ['email' => 'customer@example.com', 'phone_number' => '00000000', 'address' => 'Beirut']
+        );
 
-        PaymentMethod::create(['name' => 'Cash on Delivery']);
+        PaymentMethod::firstOrCreate(['name' => 'Cash on Delivery']);
 
         $categories = Category::factory(5)->create();
 
